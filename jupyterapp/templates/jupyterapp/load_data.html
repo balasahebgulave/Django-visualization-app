@@ -1,0 +1,103 @@
+{% extends 'jupyterapp/home.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+    body{
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; 
+    }
+    </style>
+</head>
+<body>
+
+<div class="ui-container">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+         
+    <form method="post">
+    {% csrf_token %}
+
+    <div class="col-md-12">
+        <div style="text-align: center;">
+            <h4><label>Select Index of Data for Visualization</label></h4>
+        </div>
+    </div>
+       <br>
+        <div class="col-md-5">
+        <select class="form-control" name='initial' id = "file_id">
+            <option>select index initial limit (eg - From : 5)</option>
+            {% for i in index %}
+            <option>{{i}}</option>
+            {% endfor %}
+        </select> 
+        </div>
+        <div class="col-md-5">
+        <select class="form-control" name='final' id = "file_id">
+            <option>select index final limit (eg - Upto : 10)</option>
+            {% for i in index %}
+            <option>{{i}}</option>
+            {% endfor %}
+        </select> 
+        </div>
+        <div class="col-md-2">
+        <button type="" id="jspm" class="btn btn-info">Submit</button>
+        </div>
+    </form>
+<!-- </div>
+</div>
+
+<div class="container"> -->
+        <div class="col-md-12">
+                <div style="text-align: center;">
+                    <h2>Original {{filename}}</h2>
+                </div>
+            </div>
+            <div class="col-md-12">
+                    <table id='tabledata' class="table-responsive">
+                            <thead>
+                                <tr>
+                                {% for i in columns %}
+                                    <th>{{i}}</th> 
+                                {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in values %}
+                                    <tr>
+                                    {% for j in i %}
+                                        <td>{{j}}</td> 
+                                    {% endfor %}
+                                    </tr>
+                                {% endfor %} 
+                            </tbody>
+                    
+                        </table>
+         
+   
+<!-- </div>
+</div>
+<div class="container"> -->
+<a style="float: left;" href="{% url 'select_data' %}"><button class="btn btn-info">Back</button></a>
+
+<a style="float: right;" href="{% url 'preprocess' %}"><button class="btn btn-info">Preprocess</button></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script >
+    $(document).ready(function(){
+        $('#tabledata').dataTable({});
+    });
+</script>
+
+</body>
+</html>
+{% endblock %}

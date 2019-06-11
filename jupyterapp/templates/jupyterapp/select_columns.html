@@ -1,0 +1,40 @@
+{% extends 'jupyterapp/home.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<br>
+
+<div class="ui-container">
+     
+
+             <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                 <div class="col-md-12">
+    <label>Select Columns to Graph</label>
+	<form method="post">
+    {% csrf_token %}
+    {% for i in columns %}
+    <label><input type="checkbox" value="{{i}}" name="{{i}}">{{i}}</label><br>
+    {% endfor %}
+
+
+    <div>
+    <button type="submit" class="btn btn-info">Submit</button>
+    </div>
+
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+{% endblock %}

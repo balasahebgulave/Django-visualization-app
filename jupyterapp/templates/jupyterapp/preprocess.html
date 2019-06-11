@@ -1,0 +1,72 @@
+{% extends 'jupyterapp/home.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+    body{
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; 
+    }
+    </style>
+</head>
+<body>
+
+<div class="ui-container">
+     
+
+             <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                 <div class="col-md-12">
+                <div style="text-align: center;">
+                    <h2>Processed {{filename}}</h2>
+                </div>
+            </div>
+ <div class="col-md-12">
+    <table id='tabledata'>
+        <thead>
+            <tr>
+            {% for i in columns %}
+                <th>{{i}}</th> 
+            {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in values %}
+                <tr>
+                {% for j in i %}
+                    <td>{{j}}</td> 
+                {% endfor %}
+                </tr>
+            {% endfor %} 
+        </tbody>
+
+    </table>
+<!-- </div>
+
+
+<div class="container"> -->
+<a style="float: left;" href="{% url 'load_data' %}"><button class="btn btn-info">Back</button></a>
+
+<a style="float: right;" href="{% url 'select_columns' %}"><button class="btn btn-info">Select Columns</button></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+
+
+<script >
+    $(document).ready(function(){
+        $('#tabledata').dataTable({});
+    });
+</script>
+
+</html>
+{% endblock %}

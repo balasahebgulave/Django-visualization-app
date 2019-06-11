@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Visualization</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static '/css/normalize.min.css' %}">
+  <link rel="stylesheet" href="{% static '/css/fonts.css' %}">
+  <link rel="stylesheet" href="{% static '/css/style.css' %}" type="text/css">
+
+<style type="text/css">
+  .containers{
+    width: 100%;
+    background-color:lavender;
+  }
+  header::after{
+    display: table;
+    clear:both;
+  }
+  .logo{
+    float: left;
+    padding-left: 50px;
+    padding-top: 5px;
+  }
+  nav{
+    float: right;
+  }
+  nav ul{
+    margin: 0;
+    padding: 0;
+    list-style:block;
+  }
+  nav li{
+    display: inline-block;
+    margin-left: 50px;
+    margin-top: 30px;
+    font-size: 15px;
+    font-family: TimesNewRoman;
+  }
+  .textcenter{
+    text-align: center;
+    top: 10px;
+  }
+  span div{
+    padding: 19px;
+    font-family:TimesNewRoman;
+    font-size: 25px;
+  }
+  span{
+    font-size: 20px;
+    color: white;
+    padding-bottom: 3px;
+  }
+  #sidebar{
+    background: white; 
+  }
+  #sidebar.active{
+    left: 0px;
+  }
+  #sidebar ul li{
+    color: rgb(230,230,230);
+    list-style: none;
+    border-bottom:1px solid rgb(100,100,100);
+  }
+  #sidebar .toggle-btn{
+    position: absolute;
+    left: 230px;
+    top: 20px;
+  }
+  #sidebar .toggle-btn span{
+    display: block;
+    width: 30px;
+    height: 5px;
+    background: #515B51;
+    margin: 3px 0px;
+  }
+  .footer {
+     position: fixed;
+     left: 0;
+     bottom: 0;
+     width: 100%;
+     background-color: #515B51;
+     color: white;
+     text-align: center;
+     color:white;
+     font-size: 15px;
+     font-family: TimesNewRoman;
+}
+</style>
+</style>
+
+</head>
+<body>
+  <header>
+    <div class="containers">
+      <img src="{% static '/images/logo-new.png' %}" alt="logo" class="logo" >
+      <nav>
+        <ul><center><div>
+          {% if request.user.is_authenticated %}
+          <li ><a href=""></a></li>
+          <li ><a href=""></a></li>
+          {% else %}
+          <li ><a href=""></a></li>
+          <li ><a href=""></a></li></div></center>
+          {% endif %}
+        </ul>
+      </nav>
+        <span>
+          <center><div style="color: black">Data Visualization</div></center>
+        </span> 
+    </div>
+  </header>
+<div class="container-fluid">
+  <div id="sidebar" class="col-md-1"><br>
+    <button class="btn"><a href="http://www.rabbitandtortoise.com/">About Us</a></button><br><br>
+    <button class="btn"><a href="/">Home</a></button><br><br>
+    <button class="btn"><a href="{% url 'jupyter_data' %}">jupyter view</a></button><br><br>
+    <button class="btn"><a href="{% url 'select_data' %}">select file</a></button><br><br>
+    <button class="btn"><a href="{% url 'load_data' %}">show data</a></button><br><br>
+    <button class="btn"><a href="{% url 'preprocess' %}">preprocess data</a></button><br><br>
+    <button class="btn"><a href="{% url 'select_columns' %}">select columns</a></button><br><br>
+    <button class="btn"><a href="{% url 'configure' %}">graph</a></button><br><br>
+
+  </div>
+ 
+
+    <div class="col-md-11">
+    {% block content %}
+   
+    {% endblock %}
+    </div>
+</div>
+
+
+<div class="footer">
+  &copy; Copyright 2018. Rabbit and Tortoise Technology Solutions.
+</div>
+
+</body>
+</html>

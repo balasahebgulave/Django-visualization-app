@@ -1,0 +1,63 @@
+{% extends 'jupyterapp/home.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div class="ui-container">
+		<div class="row">
+				<div class="panel panel-default" style="min-height: 500px;">
+						<div class="panel-body">
+							<div style="padding-top: 12%;">
+	<div class="col-md-6">
+		
+	<form method="post">
+	    {% csrf_token %}
+	        <div class="col-md-10">
+					<label for="file_id">Select Datafile to Visualize</label>
+	        <select class="form-control" name='file' id = "file_id">
+	            <option>select file here</option>
+	            {% for i in total_files %}
+	            <option>{{i}}</option>
+	            {% endfor %}
+	        </select> 
+	        </div>
+
+	        <div class="col-md-2">
+					<label for="jspm">&nbsp;</label>
+	        <button type="" id="jspm" class="btn btn-info">Submit</button>
+	        </div>
+	</form>
+</div>
+
+
+	<div class="col-md-6">
+		
+		<form method="post" enctype="multipart/form-data">
+			<div class="col-md-10">
+			<label for="file">Select File to Upload</label>
+			<input class="btn btn-info disabled" id="file" type="file" name="fileToUpload" id="fileToUpload">
+			
+			</div>
+
+			<div class="col-md-2">
+					<label for="jspm">&nbsp;</label>
+	        <button type="" id="jspm" class="btn btn-info">Submit</button>
+	        </div>		
+    	</form>
+	</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</body>
+</html>
+
+{% endblock %}

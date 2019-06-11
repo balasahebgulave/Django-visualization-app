@@ -1,0 +1,244 @@
+{% extends 'jupyterapp/home.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <div class="col-md-3">
+        <center><label>Select Chart Type</label></center>
+        <form method="post">
+            {% csrf_token %}
+                <div class="col-sm-10">
+                <select class="form-control" name='plot_type' id = "columns">
+                    <option value="bar">select plot type here</option>
+                    <option>bar</option>
+                    <option>line</option>
+                    <option>pie</option>
+                    <option>horizontalBar</option>
+                    <option>radar</option>
+                    <option>doughnut</option>
+                    <option>polarArea</option>
+
+
+                </select> 
+                </div>
+
+
+                <div class="col-sm-2" style="padding: 2%">
+                <button type="" id="jspm" class="btn btn-info">Submit</button>
+                </div>
+        </form>
+    </div>
+
+
+
+
+
+
+{% if final_result %}
+
+    <div class="col-md-3">
+        <center><label>Select Filter for Specific {{final_result.y_label}}</label></center>
+        <form method="post">
+            {% csrf_token %}
+                <div class="col-sm-10">
+                <input type="range" min="{{final_result.minimum}}" max="{{final_result.maximum}}" id="blue" value="5" name='filter' onchange="updateTextInput(this.value);">
+                <center><input style="width: auto;" type="text" id="textInput" value=""></center>
+                </div>
+
+                <div class="col-sm-2" style="padding: 2%">
+                <button type="" id="jspm" class="btn btn-info">filter</button>
+                </div>
+        </form>
+    </div>
+
+
+
+
+
+    <div class="col-md-3">
+        <center><label>Select Filter Upto {{final_result.y_label}} Limit </label></center>
+        <form method="post">
+            {% csrf_token %}
+                <div class="col-sm-10">
+                <input type="range" min="{{final_result.minimum}}" max="{{final_result.maximum}}" id="blue" name='limit' onchange="updateLimitInput(this.value);">
+                <center><input style="width: auto;" type="text" id="ValInput" value=""></center>
+                </div>
+
+                <div class="col-sm-2" style="padding: 2%">
+                <button type="" id="jspm" class="btn btn-info">filter</button>
+                </div>
+        </form>
+    </div>
+    <div class="col-md-3">
+        <center><label>Click to See Full Size</label></center>
+        
+        <center>
+        <button id='show' class="btn btn-info">fullsize</button>
+        </center>
+
+    </div>
+</div>
+
+<br>
+
+<div class="container" id='graph'>
+    <canvas id="gmyChartbar" width="400" height="300"></canvas>
+</div>
+
+<br><br>
+
+<div class="container-fluid" id='graphdata'>
+<div class="col-md-6" style="width: 50%; height: 35px" >
+    <canvas id="gmyChartbars" width="400" height="300"></canvas>
+</div>
+
+<div class="col-md-6">
+    <table id='tabledata' class="table">
+        <thead>
+        <tr>
+            <th>x_id</th>
+            <th>{{final_result.x_label}}</th>
+            <th>y_id</th>
+            <th>{{final_result.y_label}}</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+{% for i,j,k,l in final_result.x_value %}
+        <tr>
+            <td>{{i}}</td>
+            <td>{{j}}</td>
+            <td>{{k}}</td>
+            <td>{{l}}</td>
+        </tr>
+{% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+</div>
+
+
+<script>
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+</script>
+
+
+<script>
+var labels = {{final_result.labels}}
+var results = {{final_result.results}}
+var ctx = document.getElementById('gmyChartbar').getContext('2d');
+var colors = [];
+for(var i in results){
+    colors[i] = getRandomColor();
+
+}console.log(colors);
+var myChart = new Chart(ctx, {
+    type: '{{final_result.plot}}',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: '{{final_result.y_label}}',
+            data: results ,
+            backgroundColor: colors,
+            borderWidth: 1
+        }
+
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+
+
+<script>
+var labels = {{final_result.labels}}
+var results = {{final_result.results}}
+var ctx = document.getElementById('gmyChartbars').getContext('2d');
+var colors = [];
+for(var i in results){
+    colors[i] = getRandomColor();
+
+}console.log(colors);
+var myChart = new Chart(ctx, {
+    type: '{{final_result.plot}}',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: '{{final_result.y_label}}',
+            data: results ,
+            backgroundColor: colors,
+            borderWidth: 1
+        }
+
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+{% endif %}
+
+
+<script>
+    function updateTextInput(val) {
+          document.getElementById('textInput').value=val;
+        }
+
+    function updateLimitInput(val) {
+          document.getElementById('ValInput').value=val; 
+        }
+</script>
+
+<script >
+    $(document).ready(function(){
+        $('#tabledata').dataTable({});
+    });
+</script>
+
+<script>
+$("#graph").hide();
+$(document).ready(function(){
+  $("#show").click(function(){
+    $("#graph").toggle();
+  });
+});
+</script>
+</body>
+</html>
+{% endblock %}
